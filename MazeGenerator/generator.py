@@ -1,0 +1,1 @@
+print("Hi, I', generator of Maze")
