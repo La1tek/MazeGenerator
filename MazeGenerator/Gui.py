@@ -58,6 +58,10 @@ player = pygame.image.load("Sprites/player.png")
 bg = pygame.image.load("Sprites/bg_blur.jpg")
 bg_play = pygame.image.load("Sprites/bg_play.png")
 
+pygame.mixer.music.load("other/bg_sound.mp3")
+pygame.mixer.music.play(0)
+pygame.mixer.music.set_volume(0.1)
+
 digits = [
     pygame.image.load("Sprites/Digits/5.png"),
     pygame.image.load("Sprites/Digits/6.png"),
@@ -112,7 +116,6 @@ new_game_window_visible = False
 running  = True
 while running:
     if main_window_visible == True:
-        pygame.display.update()
         screen.blit(bg, (0, 0))
         mouse_x, mouse_y = pygame.mouse.get_pos()
         for event in pygame.event.get():
