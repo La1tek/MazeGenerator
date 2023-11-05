@@ -1,4 +1,2 @@
-import prs
-import tkinter as tk
-from tkinter import ttk
-
+import saver_loader
+saver_loader.load()

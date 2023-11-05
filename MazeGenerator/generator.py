@@ -1,6 +1,7 @@
 import argparse
 import random
 
+'''
 def prs():
     parser = argparse.ArgumentParser(description="Maze Generator")
     parser.add_argument("rows", type=int, help="Number of rows")
@@ -13,16 +14,16 @@ def prs():
     args = parser.parse_args()
     if args.display:
         generate(args.cols, args.rows, args.algorithm)
-
+'''
 def generate(cols, rows, type):
         
-    wall = "W"
-    passage = " "
+    wall = "1"
+    passage = "0"
     start = "S"
     end = "E"
     play = "P"
 
-    if type == "dfs": #DFS
+    if type == "DFS": #DFS
         cols = 2 * cols + 1
         rows = 2 * rows + 1
         maze = [[wall for _ in range(cols)] for _ in range(rows)]
@@ -91,6 +92,8 @@ def generate(cols, rows, type):
         maze.insert(0, maze.pop())
         maze[1][1] = play
         maze[2 * rows][2 * cols] = end
+        cols = 2 * cols + 1
+        rows = 2 * rows + 1
     return maze
     for row in maze:
         print("".join(row))
