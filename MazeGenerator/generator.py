@@ -48,7 +48,6 @@ def generate(cols, rows, type):
 
         maze[0][0] = wall
         maze[1][1] = play
-        maze[rows - 2][cols - 2] = end
 
         for i in range(cols):
             maze[rows - 1][i] = wall
@@ -91,7 +90,6 @@ def generate(cols, rows, type):
             row.insert(0, row.pop())
         maze.insert(0, maze.pop())
         maze[1][1] = play
-        maze[2 * rows][2 * cols] = end
         cols = 2 * cols + 1
         rows = 2 * rows + 1
     return maze
@@ -130,8 +128,3 @@ def Player(maze, play, passage, wall, start, end, rows, cols):
             print("".join(row))
         print()
     print("You win")
-
-
-
-if __name__ == "__main__":
-    prs()

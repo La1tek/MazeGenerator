@@ -2,6 +2,7 @@ import pygame
 import sys
 import generator
 import saver_loader
+import os
 
 # Инициализация Pygame
 pygame.init()
@@ -18,8 +19,14 @@ black = (0, 0, 0)
 
 bg_main = (173, 214, 255)
 button_color = (71, 132, 48)
-button_color_active = (204, 255, 0)
+button_color_active = (124, 175, 5) # (204, 255, 0)
 text_color = (0, 152, 0)
+
+BG_COLOR = (0, 102, 51)
+WALL_COLOR = (0, 0, 0)
+PLAYER_COLOR = (255, 3, 62)
+START_COLOR = BG_COLOR  #(25, 255, 25)
+END_COLOR = (93, 118, 203)
 
 clock = pygame.time.Clock()
 
@@ -31,19 +38,19 @@ menu_buttons = []
 widht_buttons = []
 height_buttons = []
 type_buttons = []
-menu_buttons.append({"text": "Генерация", "rect": pygame.Rect(100, 110, 200, 50)})
-widht_buttons.append({"text": "0", "rect": pygame.Rect(100, 170, 20, 40)})
-widht_buttons.append({"text": "Wight", "rect": pygame.Rect(130, 170, 30, 40)})
-widht_buttons.append({"text": "1", "rect": pygame.Rect(170, 170, 20, 40)})
-height_buttons.append({"text": "0", "rect": pygame.Rect(210, 170, 20, 40)})
-height_buttons.append({"text": "Height", "rect": pygame.Rect(240, 170, 30, 40)})
-height_buttons.append({"text": "1", "rect": pygame.Rect(280, 170, 20, 40)})
-type_buttons.append({"text": "0", "rect": pygame.Rect(100, 230, 20, 40)})
-type_buttons.append({"text": "Type", "rect": pygame.Rect(130, 230, 140, 40)})
-type_buttons.append({"text": "1", "rect": pygame.Rect(280, 230, 20, 40)})
-menu_buttons.append({"text": "Загрузить", "rect": pygame.Rect(100, 280, 200, 50)})
-menu_buttons.append({"text": "Настройки", "rect": pygame.Rect(100, 340, 200, 50)})
-menu_buttons.append({"text": "Выход", "rect": pygame.Rect(100, 400, 200, 50)})
+menu_buttons.append({"text": "Генерация", "rect": pygame.Rect(100, 120, 200, 50)}) 
+widht_buttons.append({"text": "0", "rect": pygame.Rect(100, 180, 20, 40)})
+widht_buttons.append({"text": "Wight", "rect": pygame.Rect(130, 180, 30, 40)})
+widht_buttons.append({"text": "1", "rect": pygame.Rect(170, 180, 20, 40)})
+height_buttons.append({"text": "0", "rect": pygame.Rect(210, 180, 20, 40)})
+height_buttons.append({"text": "Height", "rect": pygame.Rect(240, 180, 30, 40)})
+height_buttons.append({"text": "1", "rect": pygame.Rect(280, 180, 20, 40)})
+type_buttons.append({"text": "0", "rect": pygame.Rect(100, 240, 20, 40)})
+type_buttons.append({"text": "Type", "rect": pygame.Rect(130, 240, 140, 40)})
+type_buttons.append({"text": "1", "rect": pygame.Rect(280, 240, 20, 40)})
+menu_buttons.append({"text": "Загрузить", "rect": pygame.Rect(140, 290, 120, 50)})
+menu_buttons.append({"text": "Настройки", "rect": pygame.Rect(100, 350, 200, 50)})
+menu_buttons.append({"text": "Выход", "rect": pygame.Rect(145, 410, 110, 50)})
 
 
 logo = pygame.image.load("Sprites/logo.png")
@@ -79,10 +86,23 @@ type_gen = [
     pygame.image.load("Sprites/dfs.png")
 ]
 
+title_menu = [
+    pygame.image.load("Sprites/Titles/gen.png"),
+    pygame.image.load("Sprites/Titles/gen_act.png"),
+    pygame.image.load("Sprites/Titles/load.png"),
+    pygame.image.load("Sprites/Titles/load_act.png"),
+    pygame.image.load("Sprites/Titles/load_block.png"),
+    pygame.image.load("Sprites/Titles/exit.png"),
+    pygame.image.load("Sprites/Titles/exit_act.png")
+]
+
 # Main Loop
 
-cols = 5
-rows = 5
+CELL_SIZE = 25
+BUTTON_SAVE_HEIGHT = 50
+
+cols = 10
+rows = 10
 type = 0 # 1 - dfs, 0 - mst
 types = ["DFS","MST"]
 
@@ -107,7 +127,7 @@ while running:
                             main_window_visible = False  # Закрыть основное окно
                         if button["text"] == "Выход":
                             running = False
-                        if button["text"] == "Загрузить":
+                        if button["text"] == "Загрузить" and len(os.listdir(os.getcwd() + "\Loader")) != 0:
                             load = True
                             new_game_window_visible = True
                             main_window_visible = False
@@ -128,39 +148,80 @@ while running:
                         type = 1 - type
 
         for button in menu_buttons:
-            if button["rect"].collidepoint((mouse_x, mouse_y)):
-                pygame.draw.rect(screen, (100, 100, 100), button["rect"])  # Изменение цвета при наведении
-            else:
-                pygame.draw.rect(screen, button_color, button["rect"])  # Обычный цвет
-            text = font.render(button["text"], True, white)
-            text_rect = text.get_rect(center=button["rect"].center)
-            screen.blit(text, text_rect)
+            if button["text"] == "Генерация":
+                if button["rect"].collidepoint((mouse_x, mouse_y)):
+                    image = title_menu[1] # Изменение цвета при наведении
+                else:
+                    image = title_menu[0]  # Обычный цвет
+                image_rect = image.get_rect(center=button["rect"].center)
+                screen.blit(image, image_rect)
 
+            elif button["text"] == "Загрузить":
+                if button["rect"].collidepoint((mouse_x, mouse_y)):
+                    if len(os.listdir(os.getcwd() + "\Loader")) != 0:
+                        image = title_menu[3] # Изменение цвета при наведении
+                    else:
+                        image = title_menu[4]
+                else:
+                    image = title_menu[2]  # Обычный цвет
+                image_rect = image.get_rect(center=button["rect"].center)
+                screen.blit(image, image_rect)
+            elif button["text"] == "Выход":
+                if button["rect"].collidepoint((mouse_x, mouse_y)):
+                    image = title_menu[6] # Изменение цвета при наведении
+                else:
+                    image = title_menu[5]  # Обычный цвет
+                image_rect = image.get_rect(center=button["rect"].center)
+                screen.blit(image, image_rect)
+            '''
+            else:
+                if button["rect"].collidepoint((mouse_x, mouse_y)):
+                    pygame.draw.rect(screen, button_color_active, button["rect"])  # Изменение цвета при наведении
+                else:
+                    pygame.draw.rect(screen, button_color, button["rect"])  # Обычный цвет
+                text = font.render(button["text"], True, white)
+                text_rect = text.get_rect(center=button["rect"].center)
+                screen.blit(text, text_rect)
+            '''
         
 
         for button in widht_buttons:
-            if button["text"] != "Wight":
+            if button["text"] == "Wight":
+                text_rect = digits[cols - 5].get_rect(center=button["rect"].center)
+                screen.blit(digits[cols - 5], text_rect)
+            elif button["text"] == "0" and cols > 5:
                 if button["rect"].collidepoint((mouse_x, mouse_y)):
                     image = arrows[1][int(button["text"])] # Изменение цвета при наведении
                 else:
                     image = arrows[0][int(button["text"])]  # Обычный цвет
                 image_rect = image.get_rect(center=button["rect"].center)
                 screen.blit(image, image_rect)
-            else:
-                text_rect = digits[cols - 5].get_rect(center=button["rect"].center)
-                screen.blit(digits[cols - 5], text_rect)
+            elif button["text"] == "1" and cols < 15:
+                if button["rect"].collidepoint((mouse_x, mouse_y)):
+                    image = arrows[1][int(button["text"])] # Изменение цвета при наведении
+                else:
+                    image = arrows[0][int(button["text"])]  # Обычный цвет
+                image_rect = image.get_rect(center=button["rect"].center)
+                screen.blit(image, image_rect)
+            
 
         
         for button in height_buttons:
-            if button["text"] != "Height":
+            if button["text"] == "Height":
+                text_rect = digits[rows - 5].get_rect(center=button["rect"].center)
+                screen.blit(digits[rows - 5], text_rect)
+            elif button["text"] == "0" and rows > 5:
                 if button["rect"].collidepoint((mouse_x, mouse_y)):
                     image = arrows[1][int(button["text"])] # Изменение цвета при наведении
                 else:
                     image = arrows[0][int(button["text"])]  # Обычный цвет
                 image_rect = image.get_rect(center=button["rect"].center)
                 screen.blit(image, image_rect)
-            else:
-                image = digits[rows - 5]
+            elif button["text"] == "1" and rows < 15:
+                if button["rect"].collidepoint((mouse_x, mouse_y)):
+                    image = arrows[1][int(button["text"])] # Изменение цвета при наведении
+                else:
+                    image = arrows[0][int(button["text"])]  # Обычный цвет
                 image_rect = image.get_rect(center=button["rect"].center)
                 screen.blit(image, image_rect)
 
@@ -191,16 +252,8 @@ while running:
             cols = inf[1]
             rows = inf[2]
         load = False
-        print(cols, rows)
-        CELL_SIZE = 25
-        BUTTON_SAVE_HEIGHT = 50
         SCREEN_WIDTH = CELL_SIZE * (cols * 2 + 1)
         SCREEN_HEIGHT = CELL_SIZE * (rows * 2 + 1) + BUTTON_SAVE_HEIGHT
-        BG_COLOR = (0, 102, 51)
-        WALL_COLOR = (0, 0, 0)
-        PLAYER_COLOR = (255, 3, 62)
-        START_COLOR = BG_COLOR  #(25, 255, 25)
-        END_COLOR = (93, 118, 203)
         PLAYER_X = 1
         PLAYER_Y = 1
         win = False
@@ -229,14 +282,7 @@ while running:
                     elif cell == "P":
                         pygame.draw.rect(screen, black, (x * CELL_SIZE + 1, y * CELL_SIZE + 1, CELL_SIZE - 2, CELL_SIZE - 2))
                         pygame.draw.rect(screen, PLAYER_COLOR, (x * CELL_SIZE + 2, y * CELL_SIZE + 2, CELL_SIZE - 4, CELL_SIZE - 4))
-                    '''
-                    elif cell == "S":
-                        pygame.draw.rect(screen, START_COLOR, (x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-                    elif cell == "P" and x == 1 and y == 1:
-                        pygame.draw.rect(screen, START_COLOR, (x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-                        pygame.draw.rect(screen, black, (x * CELL_SIZE + 1, y * CELL_SIZE + 1, CELL_SIZE - 2, CELL_SIZE - 2))
-                        pygame.draw.rect(screen, PLAYER_COLOR, (x * CELL_SIZE + 2, y * CELL_SIZE + 2, CELL_SIZE - 4, CELL_SIZE - 4))
-                    '''
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     new_game_window_visible = False
@@ -249,6 +295,8 @@ while running:
                                 saver_loader.save(maze, rows, cols)
                 elif event.type == pygame.KEYDOWN: # нажата какая-то клавиша
                     if not(win):
+                        if event.key == pygame.K_p:
+                            restart = True
                         if event.key == pygame.K_w or event.key == pygame.K_s or event.key == pygame.K_a or event.key == pygame.K_d:
                             maze[PLAYER_X][PLAYER_Y] = "0"
                             if event.key == pygame.K_w and maze[PLAYER_X - 1][PLAYER_Y] != "1":
@@ -283,9 +331,9 @@ while running:
                 
             for button in save_button:
                 if button["rect"].collidepoint((mouse_x, mouse_y)):
-                    pygame.draw.rect(screen, BG_COLOR, button["rect"])  # Изменение цвета при наведении
+                    pygame.draw.rect(screen, button_color, button["rect"])  # Изменение цвета при наведении
                 else:
-                    pygame.draw.rect(screen, button_color, button["rect"])  # Обычный цвет
+                    pygame.draw.rect(screen, BG_COLOR, button["rect"])  # Обычный цвет
                 text = font.render(button["text"], True, white)
                 text_rect = text.get_rect(center=button["rect"].center)
                 screen.blit(text, text_rect)

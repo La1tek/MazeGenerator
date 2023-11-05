@@ -13,7 +13,7 @@ def save(maze, rows, cols):
         for y, row in enumerate(maze):
             s = ""
             for x, cell in enumerate(row):
-                if cell == "W":
+                if cell == "1":
                     s += "1"
                 else:
                     s += "0"
