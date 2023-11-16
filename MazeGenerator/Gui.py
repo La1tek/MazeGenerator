@@ -1,7 +1,7 @@
 import pygame
 import sys
 import generator
-import saver_loader
+import utils
 import os
 
 # Инициализация Pygame
@@ -250,7 +250,7 @@ while running:
         if not(load):
             maze = generator.generate(cols, rows, types[type])
         else:
-            inf = saver_loader.load()
+            inf = utils.load()
             maze = inf[0]
             cols = inf[1]
             rows = inf[2]
@@ -295,7 +295,7 @@ while running:
                     for button in save_button:
                         if button["rect"].collidepoint(event.pos):
                             if button["text"] == "Сохранить":
-                                saver_loader.save(maze, rows, cols)
+                                utils.save(maze, rows, cols)
                 elif event.type == pygame.KEYDOWN: # нажата какая-то клавиша
                     if not(win):
                         if event.key == pygame.K_p:
