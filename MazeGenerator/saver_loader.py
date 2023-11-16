@@ -8,7 +8,7 @@ def save(maze, rows, cols):
     date_time_str = current_datetime.strftime("%Y-%m-%d %H-%M-%S")
     file_name = f"Saves/Maze_{date_time_str}.txt"
     with open(file_name, "w") as file:
-        s = str(rows) + " " + str(cols) + "\n"
+        s = f"{rows} {cols}\n"
         file.write(s)
         for y, row in enumerate(maze):
             s = ""
