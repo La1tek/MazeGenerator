@@ -8,7 +8,8 @@ def generate(cols, rows, type):
     start = "S"
     end = "E"
     play = "P"
-
+    type = "DFS"
+    
     if type == "DFS": #DFS
         cols = 2 * cols + 1
         rows = 2 * rows + 1
