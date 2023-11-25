@@ -31,7 +31,8 @@ def load():
             stat = True
             with open(file_path, "r") as file:
                 sizes = file.readline().split("\n")[0].split(" ")
-                rows, cols = int(sizes[0]), int(sizes[1])
+                rows = int(sizes[0])
+                cols = int(sizes[1])
                 
                 maze = [[0] * (2 * cols + 1) for _ in range(2 * rows + 1)]
 
@@ -41,4 +42,5 @@ def load():
                         maze[i][j] = list(row_data)[j]
             return [maze, cols, rows]
     return 0
+
 
