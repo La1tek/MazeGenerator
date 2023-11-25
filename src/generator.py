@@ -8,8 +8,7 @@ def generate(cols, rows, type):
     start = "S"
     end = "E"
     play = "P"
-    type = "DFS"
-    
+
     if type == "DFS": #DFS
         cols = 2 * cols + 1
         rows = 2 * rows + 1
@@ -29,7 +28,6 @@ def generate(cols, rows, type):
                 nx, ny = x + dx * 2, y + dy * 2
                 if 0 <= nx < cols and 0 <= ny < rows and maze[ny][nx] == wall:
                     maze[y + dy][x + dx] = passage
-                    time.sleep(0.2)
                     generate_maze(nx, ny)
 
         generate_maze(1, 1)
