@@ -81,3 +81,4 @@ def generate(cols, rows, type):
         cols = 2 * cols + 1
         rows = 2 * rows + 1
     return maze
+
