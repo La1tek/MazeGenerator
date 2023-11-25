@@ -1,5 +1,5 @@
-import src.Gui 
+import os
+import subprocess
 
-if __name__ == "__main__":
-    src.Gui.start()
-    
+subprocess.run(['python', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'src', 'Gui.py')])
+
