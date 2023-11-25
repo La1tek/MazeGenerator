@@ -342,3 +342,4 @@ def start():
     # Завершение Pygame
     pygame.quit()
     sys.exit()
+
