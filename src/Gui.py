@@ -131,7 +131,7 @@ def start():
                                 main_window_visible = False  # Закрыть основное окно
                             if button["text"] == "Выход":
                                 running = False
-                            if button["text"] == "Загрузить" and len(os.listdir(os.getcwd() + "\src\Loader")) != 0:
+                            if button["text"] == "Загрузить" and len(os.listdir(os.getcwd() + "/src/Loader")) != 0:
                                 load = True
                                 new_game_window_visible = True
                                 main_window_visible = False
