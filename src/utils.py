@@ -41,3 +41,4 @@ def load():
                         maze[i][j] = list(row_data)[j]
             return [maze, cols, rows]
     return 0
+
