@@ -1,8 +1,11 @@
-import pygame
+import os
 import sys
+
+import pygame
+
 import generator
 import utils
-import os
+
 
 # Инициализация Pygame
 pygame.init()
